@@ -7,6 +7,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/main/Dotnet.gitignore
 
+# Godot (same as erasels/StS2-Quick-Restart — avoid .godot/mono in tree)
+.godot/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -52,3 +55,19 @@ CodeCoverage/
 *.VisualState.xml
 TestResult.xml
 nunit-*.xml
+
+.idea/
+.vscode/
+.DS_Store
+Directory.Build.props
+
+# Local ILSpy output (copyrighted game code — do not commit)
+decompiled/
+
+# Local exports / local config / manual backups
+export/
+release/
+map_color_config.json
+*.old
+*.old.*
+*.old*

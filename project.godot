@@ -1,0 +1,26 @@
+; Engine configuration file (Godot 4.6; game is 4.5.1 — minimal pck is backward compatible).
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
+[application]
+
+config/name="sts2_map_mod"
+config/features=PackedStringArray("4.6", "C#", "Mobile")
+
+[dotnet]
+
+project/assembly_name="sts2_map_mod"
+
+[rendering]
+
+renderer/rendering_method="mobile"

@@ -1,0 +1,51 @@
+<!-- Microsoft.NET.Sdk: build uses project bin/obj only. Godot export-pck recreates .godot/mono; Makefile runs clean-godot-mono before build to avoid CS0579. -->
+<Project Sdk="Godot.NET.Sdk/4.5.1">
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>true</ImplicitUsings>
+    <LangVersion>12.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Sts2MapMod</RootNamespace>
+    <AssemblyName>sts2_map_mod</AssemblyName>
+    <OutputType>Library</OutputType>
+    <!-- Avoid CS0579 with Godot.NET.Sdk (duplicate generated attrs in .godot/mono/temp vs obj). -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <!-- ILSpy output (make decompile-sts2): read-only in IDE; never compile — duplicates sts2.dll → CS0436 / thousands of errors. -->
+    <DefaultItemExcludes>$(DefaultItemExcludes);decompiled/**</DefaultItemExcludes>
+
+    <!-- Override via Directory.Build.props or env -->
+    <Sts2Dir Condition="'$(Sts2Dir)' == ''">$(HOME)/Library/Application Support/Steam/steamapps/common/Slay the Spire 2</Sts2Dir>
+    <Sts2DataDir Condition="'$(Sts2DataDir)' == ''">$(Sts2Dir)/SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64</Sts2DataDir>
+    <!-- ModDir: override in Directory.Build.props on macOS (.app/Contents/MacOS/mods); default game root mods/ -->
+    <ModDir Condition="'$(ModDir)' == ''">$(Sts2Dir)/mods/$(AssemblyName)</ModDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="GodotSharp">
+      <HintPath>$(Sts2DataDir)/GodotSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="sts2">
+      <HintPath>$(Sts2DataDir)/sts2.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>$(Sts2DataDir)/0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Steamworks.NET">
+      <HintPath>$(Sts2DataDir)/Steamworks.NET.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <Target Name="CopyMod" AfterTargets="Build" Condition="'$(SkipCopyMod)' != 'true'">
+    <MakeDir Directories="$(ModDir)" ContinueOnError="true" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(ModDir)" ContinueOnError="true" />
+    <!-- map_color_config as .json.txt: game treats every *.json in mod dir as a manifest (needs id). -->
+    <Copy SourceFiles="$(ProjectDir)map_color_config.json" DestinationFiles="$(ModDir)map_color_config.json.txt" Condition="Exists('$(ProjectDir)map_color_config.json')" ContinueOnError="true" />
+    <Copy SourceFiles="$(ProjectDir)sts2_map_mod.json" DestinationFolder="$(ModDir)" Condition="Exists('$(ProjectDir)sts2_map_mod.json')" ContinueOnError="true" />
+  </Target>
+</Project>

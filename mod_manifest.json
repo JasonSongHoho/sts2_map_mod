@@ -1,0 +1,8 @@
+{
+  "id": "sts2_map_mod",
+  "pck_name": "sts2_map_mod",
+  "name": "Map Color Mod",
+  "author": "Jason Song",
+  "description": "Color map nodes by room type for better readability",
+  "version": "0.1.0"
+}

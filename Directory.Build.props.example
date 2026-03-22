@@ -1,0 +1,10 @@
+<Project>
+  <PropertyGroup>
+    <!-- Set this to your local Slay the Spire 2 install directory -->
+    <Sts2Dir>/path/to/Slay the Spire 2</Sts2Dir>
+
+    <!-- Example for macOS Apple Silicon -->
+    <Sts2DataDir>$(Sts2Dir)/SlayTheSpire2.app/Contents/Resources/data_sts2_macos_arm64</Sts2DataDir>
+    <ModDir>$(Sts2Dir)/SlayTheSpire2.app/Contents/MacOS/mods/sts2_map_mod</ModDir>
+  </PropertyGroup>
+</Project>
